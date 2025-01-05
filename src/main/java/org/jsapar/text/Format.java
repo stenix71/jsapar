@@ -5,6 +5,8 @@ import org.jsapar.text.format.*;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.time.Duration;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
@@ -184,15 +186,15 @@ public interface Format<T> {
      * @param cellType The type of cell to parse and produce
      * @return An instance that formats and parses date time objects.
      */
-    static Format<TemporalAccessor>  ofDateTimeInstance(DateTimeFormatter formatter, CellType cellType){
+    static Format<TemporalAccessor> ofTemporalAccessorInstance(DateTimeFormatter formatter, CellType cellType){
         // TODO When not given time zone explicitly, it should be given by the parser instead of system default
         return new DateTimeFormat(formatter, cellType, ZoneId.systemDefault());
     }    /**
      * @param formatter  The formatter to use while formatting and parsing.
      * @return An instance that formats and parses date time objects of type local date time.
      */
-    static  Format<TemporalAccessor>  ofDateTimeInstance(DateTimeFormatter formatter){
-        return ofDateTimeInstance(formatter, CellType.LOCAL_DATE_TIME);
+    static  Format<TemporalAccessor> ofTemporalAccessorInstance(DateTimeFormatter formatter){
+        return ofTemporalAccessorInstance(formatter, CellType.LOCAL_DATE_TIME);
     }
 
     /**
@@ -201,15 +203,49 @@ public interface Format<T> {
      * @param cellType The type of cell to parse and produce.
      * @return An instance that formats and parses date time objects.
      */
-    static  Format<TemporalAccessor>  ofDateTimeInstance(Locale locale, String pattern, CellType cellType){
-        return ofDateTimeInstance(DateTimeFormatter.ofPattern(pattern, locale), cellType);
-    }    /**
+    static  Format<TemporalAccessor> ofTemporalAccessorInstance(Locale locale, String pattern, CellType cellType){
+        return ofTemporalAccessorInstance(DateTimeFormatter.ofPattern(pattern, locale), cellType);
+    }
+
+    /**
      * @param locale  The locale to use
      * @param pattern The date pattern to use according to {@link DateTimeFormatter}. Required.
      * @return An instance that formats and parses date time objects of type local date time.
      */
-    static  Format<TemporalAccessor>  ofDateTimeInstance(Locale locale, String pattern){
-        return ofDateTimeInstance(locale, pattern, CellType.LOCAL_DATE_TIME);
+    static  Format<TemporalAccessor> ofTemporalAccessorInstance(Locale locale, String pattern){
+        return ofTemporalAccessorInstance(locale, pattern, CellType.LOCAL_DATE_TIME);
+    }
+
+    /**
+     * If a pattern is provided, it is used to format and parse the duration. If not, the default Duration format
+     * according to {@link Duration#parse(CharSequence)} and {@link Duration#toString()} is used.
+     * The pattern formats time units as LocalTime since midnight. E.g. "HH:mm:ss" will format a duration of 1 hour and
+     * 30 minutes to "01:30:00".
+     * @param locale  The locale to use
+     * @param pattern The date pattern to use according to {@link DateTimeFormatter}. If null or empty, default duration
+     *                format is assumed according to {@link Duration#parse(CharSequence)} and {@link Duration#toString()}.
+     * @return An instance that formats and parses date time objects of type local date time.
+     */
+    static  Format<Duration> ofDurationInstance(Locale locale, String pattern){
+        if(pattern == null || pattern.isEmpty())
+            return new DurationDefalultFormat();
+        return new DurationFormat(DateTimeFormatter.ofPattern(pattern, locale));
+    }
+
+    /**
+     * If a pattern is provided, it is used to format and parse the duration. If not, the default Duration format
+     * according to {@link Duration#parse(CharSequence)} and {@link Duration#toString()} is used.
+     * The pattern formats time units as LocalTime since midnight. E.g. "HH:mm:ss" will format a duration of 1 hour and
+     * 30 minutes to "01:30:00".
+     * @param locale  The locale to use
+     * @param pattern The date pattern to use according to {@link DateTimeFormatter}. If null or empty, default duration
+     *                format is assumed according to {@link Duration#parse(CharSequence)} and {@link Duration#toString()}.
+     * @return An instance that formats and parses date time objects of type local date time.
+     */
+    static  Format<Period> ofPeriodInstance(Locale locale, String pattern){
+        if(pattern == null || pattern.isEmpty())
+            return new PeriodDefalultFormat();
+        return new PeriodFormat(DateTimeFormatter.ofPattern(pattern, locale));
     }
 
     /**

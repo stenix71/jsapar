@@ -163,6 +163,8 @@
                local_date_time
                zoned_date_time
                instant
+               duration
+               period
                decimal
                integer
                float
@@ -179,6 +181,8 @@
       		<xsd:enumeration value="local_date_time" />
       		<xsd:enumeration value="zoned_date_time" />
       		<xsd:enumeration value="instant" />
+      		<xsd:enumeration value="duration" />
+      		<xsd:enumeration value="period" />
       		<xsd:enumeration value="decimal" />
       		<xsd:enumeration value="integer" />
       		<xsd:enumeration value="float" />

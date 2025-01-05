@@ -501,6 +501,10 @@ public class Xml2SchemaBuilder implements SchemaXmlTypes, XmlTypes {
                 return CellType.ENUM;
             case "instant":
                 return CellType.INSTANT;
+            case "duration":
+                return CellType.DURATION;
+            case "period":
+                return CellType.PERIOD;
             default:
                 throw new SchemaException("Unknown cell format type: " + sType);
         }

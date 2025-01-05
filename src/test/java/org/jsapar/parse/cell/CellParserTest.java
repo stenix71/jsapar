@@ -264,6 +264,52 @@ public class CellParserTest {
         assertEquals(ZonedDateTime.of(2000, 1, 1, 0, 0, 0, 0, ZoneId.of("+00:00")), ((ZonedDateTimeCell)cell).getValue());
     }
 
+    @Test
+    public void testMakeCell_Duration_default() throws SchemaException, java.text.ParseException {
+        SchemaCell schemaCell = StringSchemaCell.builder("test")
+                .withType(CellType.DURATION)
+                .build();
+        CellParser<?> cellParser = new CellParser<>(schemaCell, 0);
+
+        Cell<?> cell = cellParser.makeCell("PT12H15M");
+        assertEquals(Duration.ofHours(12).plus(Duration.ofMinutes(15)), cell.getValue());
+    }
+
+    @Test
+    public void testMakeCell_Duration_pattern() throws SchemaException, java.text.ParseException {
+        SchemaCell schemaCell = StringSchemaCell.builder("test")
+                .withType(CellType.DURATION)
+                .withPattern("H:m")
+                .build();
+        CellParser<?> cellParser = new CellParser<>(schemaCell, 0);
+
+        Cell<?> cell = cellParser.makeCell("12:15");
+        assertEquals(Duration.ofHours(12).plus(Duration.ofMinutes(15)), cell.getValue());
+    }
+
+    @Test
+    public void testMakeCell_Period_default() throws SchemaException, java.text.ParseException {
+        SchemaCell schemaCell = StringSchemaCell.builder("test")
+                .withType(CellType.PERIOD)
+                .build();
+        CellParser<?> cellParser = new CellParser<>(schemaCell, 0);
+
+        Cell<?> cell = cellParser.makeCell("P1Y5M12D");
+        assertEquals(Period.of(1,5,12), cell.getValue());
+    }
+
+    @Test
+    public void testMakeCell_Period_pattern() throws SchemaException, java.text.ParseException {
+        SchemaCell schemaCell = StringSchemaCell.builder("test")
+                .withType(CellType.PERIOD)
+                .withPattern("y:M:d")
+                .build();
+        CellParser<?> cellParser = new CellParser<>(schemaCell, 0);
+
+        Cell<?> cell = cellParser.makeCell("1:5:12");
+        assertEquals(Period.of(1,5,12), cell.getValue());
+    }
+
     /**
      *
      */

@@ -18,7 +18,7 @@ public abstract class AbstractDateTimeCellFactory implements CellFactory<Tempora
     }
 
     AbstractDateTimeCellFactory(DateTimeFormatter defaultFormatter, CellType cellType) {
-        this(Format.ofDateTimeInstance(defaultFormatter, cellType));
+        this(Format.ofTemporalAccessorInstance(defaultFormatter, cellType));
     }
 
     Format<TemporalAccessor> getDefaultFormat() {
@@ -34,7 +34,7 @@ public abstract class AbstractDateTimeCellFactory implements CellFactory<Tempora
     public Format<TemporalAccessor> makeFormat(Locale locale, String pattern) {
         if (pattern == null || pattern.isEmpty())
             return makeFormat(locale);
-        return Format.ofDateTimeInstance(locale, pattern);
+        return Format.ofTemporalAccessorInstance(locale, pattern);
     }
 
 
