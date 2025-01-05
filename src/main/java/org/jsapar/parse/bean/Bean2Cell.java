@@ -90,7 +90,10 @@ public class Bean2Cell {
         } else if (returnType.isAssignableFrom(Date.class)) {
             return (bean) -> this.<Date>makeCellByInvocation(bean, f, CellType.DATE, DateCell::new);
         } else if (returnType.isAssignableFrom(Calendar.class)) {
-            return (bean) -> this.<Calendar>makeCellByInvocation(bean, f, CellType.DATE, (n, v)->new DateCell(n, v.getTime()));
+            return (bean) -> this.<Calendar>makeCellByInvocation(bean,
+                    f,
+                    CellType.DATE,
+                    (n, v) -> new DateCell(n, v.getTime()));
         } else if (returnType.isAssignableFrom(Integer.TYPE) || returnType.isAssignableFrom(Integer.class) || returnType.isAssignableFrom(
                 Byte.TYPE) || returnType.isAssignableFrom(Byte.class) || returnType.isAssignableFrom(Short.TYPE) || returnType.isAssignableFrom(
                 Short.class) || returnType.isAssignableFrom(Long.TYPE) || returnType.isAssignableFrom(Long.class)) {
@@ -106,8 +109,12 @@ public class Bean2Cell {
             return (bean) -> this.<BigInteger>makeCellByInvocation(bean, f, CellType.DECIMAL, BigDecimalCell::new);
         } else if (returnType.isAssignableFrom(Character.TYPE) || returnType.isAssignableFrom(Character.class)) {
             return (bean) -> this.makeCellByInvocation(bean, f, CellType.CHARACTER, CharacterCell::new);
-        } else if (Enum.class.isAssignableFrom(returnType)){
+        } else if (Enum.class.isAssignableFrom(returnType)) {
             return (bean) -> this.<Enum>makeCellByInvocation(bean, f, CellType.ENUM, EnumCell::new);
+        } else if (returnType.isAssignableFrom(Duration.class)) {
+            return (bean) -> this.makeCellByInvocation(bean, f, CellType.DURATION, DurationCell::new);
+        } else if (returnType.isAssignableFrom(Period.class)) {
+            return (bean) -> this.makeCellByInvocation(bean, f, CellType.PERIOD, PeriodCell::new);
         }
         return (bean) -> {
             Object value = f.invoke(bean);
