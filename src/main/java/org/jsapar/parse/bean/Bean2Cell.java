@@ -137,6 +137,7 @@ public class Bean2Cell {
     /**
      * Cell creator interface. Needed to be able to let makeCell method throw exception.
      */
+    @FunctionalInterface
     private interface CellCreator {
         Cell<?> makeCell(Object o) throws InvocationTargetException, IllegalAccessException;
     }
@@ -201,6 +202,15 @@ public class Bean2Cell {
                         + " could not be used to assign cell");
     }
 
+    /**
+     * @param bean The bean to assign cell value to
+     * @param cell The cell with a value to assign
+     * @throws BeanComposeException In case of any error while assigning the cell value to the bean.
+     * @throws InvocationTargetException In case of any error while invoking the setter method.
+     * @throws IllegalAccessException In case setter has restricted access.
+     * @throws InstantiationException In case of any error while instantiating a new object as a sub-bean.
+     * @throws NoSuchMethodException In case there is no default constructor.
+     */
     public void assign(Object bean, Cell<?> cell)
             throws BeanComposeException, InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchMethodException {
         if(cell.isEmpty()) {

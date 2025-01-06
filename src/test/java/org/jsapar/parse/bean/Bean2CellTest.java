@@ -8,6 +8,7 @@ import org.jsapar.parse.bean.reflect.PropertyDescriptor;
 import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Month;
 
@@ -74,6 +75,18 @@ public class Bean2CellTest {
         assertTrue(tstPerson.isAdult());
         bean2Cell.assign(tstPerson, new BooleanCell("adult", false));
         assertFalse(tstPerson.isAdult());
+    }
+
+    @Test
+    public void assign_Duration()
+            throws InvocationTargetException, InstantiationException, IllegalAccessException,
+            BeanComposeException, NoSuchMethodException {
+        Bean2Cell bean2Cell = makeBean2CellOfPropertyName(TstPerson.class, "lapRecord");
+        TstPerson tstPerson = new TstPerson();
+        assertNull(tstPerson.getLapRecord());
+        Duration value = Duration.ofMillis(11456);
+        bean2Cell.assign(tstPerson, new DurationCell("lapRecord", value));
+        assertSame(value, tstPerson.getLapRecord());
     }
 
     @Test

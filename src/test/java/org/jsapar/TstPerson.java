@@ -1,5 +1,6 @@
 package org.jsapar;
 
+import java.time.Duration;
 import java.util.Date;
 
 /**
@@ -24,6 +25,7 @@ public class TstPerson {
     private TstGender      gender;
     
     private java.util.Date birthTime;
+    private Duration lapRecord;
 
     public TstPerson(String firstName, String lastName, short shoeSize, long luckyNumber, Date birthTime, int streetNumber, char door) {
         super();
@@ -201,5 +203,13 @@ public class TstPerson {
 
     public void setOptionalInt(Integer optionalInt) {
         this.optionalInt = optionalInt;
+    }
+
+    public Duration getLapRecord() {
+        return lapRecord;
+    }
+
+    public void setLapRecord(Duration lapRecord) {
+        this.lapRecord = lapRecord;
     }
 }
